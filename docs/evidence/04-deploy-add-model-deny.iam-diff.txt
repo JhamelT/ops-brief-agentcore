@@ -21,6 +21,5 @@
             [ ] ]
 ────────────────────────────────────────────────────────────────────────────────
 
-[20:27:09] [info] CDK_TOOLKIT_I5502: AgentCore-opsbriefagentcore-default | 2/4 | 8:27:09 PM | UPDATE_COMPLETE | AWS::IAM::Policy | Application/AgentOpsBriefAgent/Runtime/ExecutionRole/DefaultPolicy (ApplicationAgentOpsBriefAgentRuntimeExecutionRoleDefaultPolicyD91C3688)
 [20:27:16] [info] CDK_TOOLKIT_I5000: ✨  Deployment time: 32.15s
 COMPLETED SUCCESSFULLY
