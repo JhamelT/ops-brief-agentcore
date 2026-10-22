@@ -1,0 +1,32 @@
+================================================================================
+AGENTCORE INVOKE LOG
+Agent: OpsBriefAgent
+Runtime ARN: arn:aws:bedrock-agentcore:us-east-1:<ACCOUNT_ID>:runtime/opsbriefagentcore_OpsBriefAgent-<RUNTIME_SUFFIX>
+Region: us-east-1
+Session ID: none
+Started: 2026-09-23T00:59:27.668Z
+================================================================================
+
+[19:59:27.672] INVOKE REQUEST (Session: none)
+
+--- REQUEST ---
+{
+  "timestamp": "2026-09-23T00:59:27.672Z",
+  "agent": "OpsBriefAgent",
+  "runtimeArn": "arn:aws:bedrock-agentcore:us-east-1:<ACCOUNT_ID>:runtime/opsbriefagentcore_OpsBriefAgent-<RUNTIME_SUFFIX>",
+  "region": "us-east-1",
+  "prompt": "Give me today's ops brief."
+}
+--- END REQUEST ---
+
+[19:59:36.868] INVOKE RESPONSE (9196ms)
+
+--- RESPONSE ---
+{
+  "timestamp": "2026-09-23T00:59:36.870Z",
+  "durationMs": 9196,
+  "success": true,
+  "response": "### Today's Operations Brief\n\n**Alarms:**  \n2 CloudWatch alarms are currently in ALARM state:\n- `TargetTracking-service/release-demo-prod/release-demo-prod-AlarmLow-237e8c1d-33a7-451d-95b8-ac07bb8a544c` — Low metric (below 54.0) since 01:09 UTC.  \n- `TargetTracking-service/release-demo-prod/release-demo-prod-AlarmLow-9a25adb8-478b-44e4-b8bb-b7feb7a4176e` — Low metric (below 67.5) since 01:09 UTC.  \n\n**EC2:**  \nNo running EC2 instances found in the account.  \n\n**Yesterday's Spend (2026-09-22):**  \n- **Total:** $2.63 USD  \n- **Top Services:**  \n  - Amazon Elastic Container Service: $0.69  \n  - EC2 - Other: $0.63  \n  - Amazon Virtual Private Cloud: $0.49  \n  - Amazon Elastic Load Balancing: $0.32  \n\nNo immediate action required beyond investigating the alarms."
+}
+--- END RESPONSE ---
+

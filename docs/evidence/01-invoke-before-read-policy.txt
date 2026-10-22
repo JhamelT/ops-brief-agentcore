@@ -1,0 +1,32 @@
+================================================================================
+AGENTCORE INVOKE LOG
+Agent: OpsBriefAgent
+Runtime ARN: arn:aws:bedrock-agentcore:us-east-1:<ACCOUNT_ID>:runtime/opsbriefagentcore_OpsBriefAgent-<RUNTIME_SUFFIX>
+Region: us-east-1
+Session ID: none
+Started: 2026-09-23T00:54:19.125Z
+================================================================================
+
+[19:54:19.129] INVOKE REQUEST (Session: none)
+
+--- REQUEST ---
+{
+  "timestamp": "2026-09-23T00:54:19.129Z",
+  "agent": "OpsBriefAgent",
+  "runtimeArn": "arn:aws:bedrock-agentcore:us-east-1:<ACCOUNT_ID>:runtime/opsbriefagentcore_OpsBriefAgent-<RUNTIME_SUFFIX>",
+  "region": "us-east-1",
+  "prompt": "Give me today's ops brief."
+}
+--- END REQUEST ---
+
+[19:54:28.075] INVOKE RESPONSE (8946ms)
+
+--- RESPONSE ---
+{
+  "timestamp": "2026-09-23T00:54:28.078Z",
+  "durationMs": 8946,
+  "success": true,
+  "response": "Sorry, I can't retrieve the ops brief because the assumed role lacks permissions for CloudWatch, EC2, and Cost Explorer actions. The errors indicate missing identity-based policies for:\n\n- cloudwatch:DescribeAlarms\n- ec2:DescribeInstances  \n- ce:GetCostAndUsage\n\nYou'll need to grant these permissions to the role `AgentCore-opsbriefagentco-ApplicationAgentOpsBriefA-<ROLE_SUFFIX>/BedrockAgentCore-<SESSION_ID>` in order to generate the operations brief."
+}
+--- END RESPONSE ---
+

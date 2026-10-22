@@ -1,0 +1,24 @@
+[~] AWS::IAM::Policy Application/AgentOpsBriefAgent/Runtime/ExecutionRole/DefaultPolicy ApplicationAgentOpsBriefAgentRuntimeExecutionRoleDefaultPolicyD91C3688
+ └─ [~] PolicyDocument
+     └─ [~] .Statement:
+         └─ @@ -45,5 +45,15 @@
+            [ ]     ],
+            [ ]     "Effect": "Allow",
+            [ ]     "Resource": "arn:aws:bedrock-agentcore:*:*:configuration-bundle/*"
+            [+]   },
+            [+]   {
+            [+]     "Action": [
+            [+]       "ce:GetCostAndUsage",
+            [+]       "cloudwatch:DescribeAlarms",
+            [+]       "ec2:DescribeInstances"
+            [+]     ],
+            [+]     "Effect": "Allow",
+            [+]     "Resource": "*",
+            [+]     "Sid": "OpsBriefReadOnlySignals"
+            [ ]   }
+            [ ] ]
+────────────────────────────────────────────────────────────────────────────────
+
+[19:58:45] [info] CDK_TOOLKIT_I5502: AgentCore-opsbriefagentcore-default | 2/4 | 7:58:44 PM | UPDATE_COMPLETE | AWS::IAM::Policy | Application/AgentOpsBriefAgent/Runtime/ExecutionRole/DefaultPolicy (ApplicationAgentOpsBriefAgentRuntimeExecutionRoleDefaultPolicyD91C3688)
+[19:58:50] [info] CDK_TOOLKIT_I5000: ✨  Deployment time: 32.11s
+COMPLETED SUCCESSFULLY

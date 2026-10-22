@@ -1,0 +1,29 @@
+================================================================================
+AGENTCORE STATUS LOG
+Command: status
+Started: 2026-09-23T01:00:00.219Z
+================================================================================
+
+
+[20:00:00] STEP: Resolve target
+[20:00:00] Project: opsbriefagentcore
+[20:00:00] Available targets: default
+[20:00:00] Selected target: default
+[20:00:00] Status: SUCCESS
+[20:00:00] Duration: 0ms
+
+[20:00:00] STEP: Compute resource statuses
+[20:00:00] Resources: 1 total (1 deployed, 0 local-only, 0 pending-removal)
+[20:00:00]   agent/OpsBriefAgent: deployed [arn:aws:bedrock-agentcore:us-east-1:<ACCOUNT_ID>:runtime/opsbriefagentcore_OpsBriefAgent-<RUNTIME_SUFFIX>]
+[20:00:00] Status: SUCCESS
+[20:00:00] Duration: 1ms
+
+[20:00:00] STEP: Fetch runtime status (1 agent)
+[20:00:00]   OpsBriefAgent: READY (opsbriefagentcore_OpsBriefAgent-<RUNTIME_SUFFIX>)
+[20:00:00] Status: SUCCESS
+[20:00:00] Duration: 280ms
+
+================================================================================
+COMPLETED SUCCESSFULLY
+Total Duration: 285ms
+================================================================================

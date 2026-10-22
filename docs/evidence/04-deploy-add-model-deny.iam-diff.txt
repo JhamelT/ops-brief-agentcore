@@ -1,0 +1,26 @@
+[~] AWS::IAM::Policy Application/AgentOpsBriefAgent/Runtime/ExecutionRole/DefaultPolicy ApplicationAgentOpsBriefAgentRuntimeExecutionRoleDefaultPolicyD91C3688
+ └─ [~] PolicyDocument
+     └─ [~] .Statement:
+         └─ @@ -55,5 +55,17 @@
+            [ ]     "Effect": "Allow",
+            [ ]     "Resource": "*",
+            [ ]     "Sid": "OpsBriefReadOnlySignals"
+            [+]   },
+            [+]   {
+            [+]     "Action": [
+            [+]       "bedrock:InvokeModel",
+            [+]       "bedrock:InvokeModelWithResponseStream"
+            [+]     ],
+            [+]     "Effect": "Deny",
+            [+]     "NotResource": [
+            [+]       "arn:aws:bedrock:us-east-1:<ACCOUNT_ID>:inference-profile/us.amazon.nova-2-lite-v1:0",
+            [+]       "arn:aws:bedrock:*::foundation-model/amazon.nova-2-lite-v1:0"
+            [+]     ],
+            [+]     "Sid": "DenyModelsOtherThanNova2Lite"
+            [ ]   }
+            [ ] ]
+────────────────────────────────────────────────────────────────────────────────
+
+[20:27:09] [info] CDK_TOOLKIT_I5502: AgentCore-opsbriefagentcore-default | 2/4 | 8:27:09 PM | UPDATE_COMPLETE | AWS::IAM::Policy | Application/AgentOpsBriefAgent/Runtime/ExecutionRole/DefaultPolicy (ApplicationAgentOpsBriefAgentRuntimeExecutionRoleDefaultPolicyD91C3688)
+[20:27:16] [info] CDK_TOOLKIT_I5000: ✨  Deployment time: 32.15s
+COMPLETED SUCCESSFULLY
