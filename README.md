@@ -46,7 +46,7 @@ It is the second version of [ops-brief-agent](https://github.com/JhamelT/ops-bri
 
 The lesson: local testing under admin credentials hides the bugs that matter most. Test locally under a role that mirrors the execution role.
 
-**2. The generated role could invoke any model.** Reading the whole generated policy, not just the part I added, turned up `InvokeModel` on every model and inference profile in every region. For an agent that uses one model, that is a cost and data exposure problem. I added an explicit Deny on every other model ([diff](docs/evidence/04-deploy-add-model-deny.iam-diff.txt)) and confirmed the brief still runs on Nova 2 Lite ([after](docs/evidence/05-invoke-after-model-deny.txt)). What I haven't shown yet is a call to another model being refused. That needs a policy simulation against the role, and it's first on the list below.
+**2. The generated role could invoke any model.** Reading the whole generated policy, not just the part I added, turned up `InvokeModel` on every model and inference profile in every region. For an agent that uses one model, that is a cost and data exposure problem. I added an explicit Deny on every other model ([diff](docs/evidence/04-deploy-add-model-deny.iam-diff.txt)) and confirmed the brief still runs on Nova 2 Lite ([after](docs/evidence/05-invoke-after-model-deny.txt)). A policy simulation against the role then returned `explicitDeny` for Nova Pro, and `allowed` for Nova 2 Lite through both its inference profile and the model ([simulation](docs/evidence/07-simulate-model-deny.txt)).
 
 **3. The first bootstrap failed on an orphaned bucket.** A CDK staging bucket from an old bootstrap was still in the account after its stack was gone. The bucket was versioned, so deleting the visible objects wasn't enough. Old versions and delete markers had to be cleared before a clean bootstrap could run. Same class of problem as losing Terraform state: the tool wants to create something that already exists.
 
@@ -104,7 +104,7 @@ scripts/
 
 ## Next
 
-0. Prove the Deny refuses something: `simulate-principal-policy` for a second model's ARN, expecting `explicitDeny`. Filter auto scaling alarms out of `alarm_state`.
+0. Filter auto scaling alarms out of `alarm_state`.
 1. Move the tools behind **AgentCore Gateway** as a Lambda target, with a Cognito JWT authorizer. The read permissions then move to the target's role, and the agent can no longer reach AWS directly.
 2. Add **Policy** at the Gateway: default deny, permitting only the three read tools.
 3. A prompt-injection regression test: a planted instruction in a resource tag, run against every change.

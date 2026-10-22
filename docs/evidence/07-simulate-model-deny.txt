@@ -1,0 +1,7 @@
+simulate-principal-policy on the AgentCore Runtime execution role
+Run: 2026-10-22
+
+Role: arn:aws:iam::<ACCOUNT_ID>:role/AgentCore-opsbriefagentco-ApplicationAgentOpsBriefA-<ROLE_SUFFIX>
+arn:aws:bedrock:us-east-1:<ACCOUNT_ID>:inference-profile/us.amazon.nova-2-lite-v1:0	allowed
+arn:aws:bedrock:us-east-1::foundation-model/amazon.nova-2-lite-v1:0	allowed
+arn:aws:bedrock:us-east-1::foundation-model/amazon.nova-pro-v1:0	explicitDeny

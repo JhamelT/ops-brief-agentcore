@@ -15,8 +15,8 @@ Timestamps are US Central.
 
 ## What this proves and what it doesn't
 
-- **Proven:** the execution role started with no read access (01), the only read access added is the three actions (02), and the allowed path works after the Deny (05).
-- **Not yet proven:** that a call to a different model is actually refused. File 05 shows the Deny didn't break the agent. It doesn't show the Deny stops anything. The check is `aws iam simulate-principal-policy` against the role for a second model's ARN, expecting `explicitDeny`.
+- **Proven:** the execution role started with no read access (01), the only read access added is the three actions (02), the allowed path works after the Deny (05), and a call to a different model is refused: `simulate-principal-policy` returns `explicitDeny` for Nova Pro and `allowed` for Nova 2 Lite (07, run by hand on 2026-10-22, masked the same way).
+- **Not proven:** a live call to another model from inside the Runtime. The simulation evaluates the role's own policies; it doesn't account for SCPs or permission boundaries, which this single account doesn't use.
 
 ## Things the output shows that I didn't design for
 
