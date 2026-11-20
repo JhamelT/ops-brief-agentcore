@@ -1,0 +1,9 @@
+Tools registered by main.py at commit ce0c9d7
+Run: 2026-11-20  Command: uv run python scripts/list_tools.py
+Count: 5
+
+- alarm_state: CloudWatch alarms currently in ALARM state, with name, reason and how long they have been firing.
+- ec2_inventory: Running EC2 instances: instance id, type, launch time, and whether the instance is missing a Name ta
+- web_fetch_exa: Read a webpage's full content as clean markdown. Use after web_search_exa when highlights are insuff
+- web_search_exa: Search the web for any topic and get clean, ready-to-use content.
+- yesterday_spend: Yesterday's unblended AWS spend: total in USD and the top services by cost.
