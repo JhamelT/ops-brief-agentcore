@@ -50,7 +50,7 @@ The lesson: local testing under admin credentials hides the bugs that matter mos
 
 **3. The first bootstrap failed on an orphaned bucket.** A CDK staging bucket from an old bootstrap was still in the account after its stack was gone. The bucket was versioned, so deleting the visible objects wasn't enough. Old versions and delete markers had to be cleared before a clean bootstrap could run. Same class of problem as losing Terraform state: the tool wants to create something that already exists.
 
-**4. Correct numbers, wrong judgement.** The brief told me to investigate two alarms that were doing their job: auto scaling `AlarmLow` alarms that sit in ALARM whenever an ECS service is idle. It also used markdown on every run, despite a system prompt that says not to. Both are in the [evidence notes](docs/evidence/README.md#things-the-output-shows-that-i-didnt-design-for). The takeaway: grounding stops the model inventing facts. It doesn't give the model the context to know which facts matter.
+**4. Correct numbers, wrong judgement.** The brief told me to investigate two alarms that were doing their job: auto scaling `AlarmLow` alarms that sit in ALARM whenever an ECS service is idle. The first cloud runs also used markdown, despite a system prompt that says not to. Both are in the [evidence notes](docs/evidence/README.md#things-the-output-shows-that-i-didnt-design-for). The takeaway: grounding stops the model inventing facts. It doesn't give the model the context to know which facts matter.
 
 ## Measured: flexibility has a price
 
@@ -58,11 +58,11 @@ The lesson: local testing under admin credentials hides the bugs that matter mos
 |---|---|---|
 | Who calls the AWS APIs | Python, always all three | The model decides |
 | Model's job | Narrate a finished JSON object | Choose tools, then narrate the results |
-| Tokens per run | About 350 | About 3,700 in, 370 out |
+| Tokens per run | About 300 in, 100 out, one model call | About 2,400 in, 110 out, two model calls |
 | State | DynamoDB row for the day-over-day diff | None yet |
 | Infrastructure as code | Terraform | CDK, through the AgentCore CLI |
 
-Roughly ten times the tokens for the same brief. For a fixed daily report, that is a bad trade, and v1 is the better design. For an on-call engineer asking arbitrary questions about an account, tool calling is the right one. The security posture is the same either way, because the tools are read-only.
+Roughly six times the tokens. For a fixed daily report, that is a bad trade, and v1 is the better design. For an on-call engineer asking arbitrary questions about an account, tool calling is the right one. The security posture is the same either way, because the tools are read-only.
 
 ## Run it
 
