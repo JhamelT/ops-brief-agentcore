@@ -1,0 +1,7 @@
+Tools registered by main.py at commit 6fe345c
+Run: 2026-11-20  Command: uv run python scripts/list_tools.py
+Count: 3
+
+- alarm_state: CloudWatch alarms currently in ALARM state, with name, reason and how long they have been firing.
+- ec2_inventory: Running EC2 instances: instance id, type, launch time, and whether the instance is missing a Name ta
+- yesterday_spend: Yesterday's unblended AWS spend: total in USD and the top services by cost.
