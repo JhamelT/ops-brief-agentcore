@@ -33,6 +33,8 @@ It is the second version of [ops-brief-agent](https://github.com/JhamelT/ops-bri
 
 **The tools cannot change anything.** There is no tool that writes, tags, stops or terminates a resource, and no permission in the role that would allow it. A prompt injection or a confused model can produce a wrong sentence. It cannot change the account.
 
+**The agent has no tool that reaches outside AWS.** It did until 2026-11-20 (lesson 5). Read-only IAM stops an agent changing the account. It does nothing to stop the agent sending what it read somewhere else, so the tool list needs the same review as the role. The Runtime still runs in public network mode, which is why VPC mode is on the list below.
+
 **Least privilege lives in code.** The execution role is extended in [`agentcore/cdk/lib/cdk-stack.ts`](agentcore/cdk/lib/cdk-stack.ts):
 
 - `cloudwatch:DescribeAlarms`, `ec2:DescribeInstances`, `ce:GetCostAndUsage`. All three are scoped to `*` because none of them support resource-level permissions. That exception is written next to the statement, so a reviewer doesn't have to guess whether it was deliberate.
@@ -52,6 +54,10 @@ The lesson: local testing under admin credentials hides the bugs that matter mos
 
 **4. Correct numbers, wrong judgement.** The brief told me to investigate two alarms that were doing their job: auto scaling `AlarmLow` alarms that sit in ALARM whenever an ECS service is idle. The first cloud runs also used markdown, despite a system prompt that says not to. Both are in the [evidence notes](docs/evidence/README.md#things-the-output-shows-that-i-didnt-design-for). The takeaway: grounding stops the model inventing facts. It doesn't give the model the context to know which facts matter.
 
+**5. My README said three tools. The code loaded five.** The CLI template's `main.py` wires in an example MCP client pointed at a public web-search server, with no authentication. I added my three tools next to it and never removed it. Two months later, listing what the agent actually registers showed `web_search_exa` and `web_fetch_exa` alongside mine ([before](docs/evidence/08-tool-list-before.txt)). An agent that reads account data, takes in strings other people can write (alarm names, tags) and can fetch any URL has everything a prompt injection needs to leak what it read. The read-only role would not have stopped that, because the leak never touches AWS. Every run I have on record made exactly two model calls, one to pick tools and one to write the brief, so nothing suggests the web tools were ever called. I removed the client ([after](docs/evidence/09-tool-list-after.txt)), redeployed with no IAM change, and input tokens fell from 3.3k to 2.42k per run ([measurement](docs/evidence/10-token-measurement.txt)), which is the two extra tool schemas no longer being sent. A [test](tests/test_tool_allowlist.py) now fails if the agent registers anything but the three tools.
+
+The lesson: I reviewed every line of the IAM role and none of the template code I started from. Generated code is code you own. Verify what the system registers, don't trust what the README says it does.
+
 ## Measured: flexibility has a price
 
 | | v1: Lambda | v2: AgentCore Runtime |
@@ -69,13 +75,19 @@ Roughly six times the tokens. For a fixed daily report, that is a bad trade, and
 Prerequisites: an AWS account with Bedrock access to Nova 2 Lite, Node.js 20+, Python 3.10+, [uv](https://github.com/astral-sh/uv), and the AgentCore CLI.
 
 ```bash
-npm install -g @aws/agentcore
+npm install -g @aws/agentcore@0.30.0   # pinned: 1.x changes the invoke syntax and needs a project migration
 cp agentcore/aws-targets.example.json agentcore/aws-targets.json   # add your account ID
 
 agentcore dev                      # local, with an inspector; runs under YOUR credentials
 agentcore deploy                   # CDK synth, bootstrap, deploy
 agentcore invoke --prompt "Give me today's ops brief."
 agentcore status
+```
+
+Run the tests (no AWS credentials needed, every AWS call is stubbed):
+
+```bash
+uv run --project app/OpsBriefAgent --with pytest pytest tests -q
 ```
 
 Tear down:
@@ -100,6 +112,10 @@ docs/
   evidence/          raw outputs from the deploy, account ID masked
 scripts/
   export_evidence.py copies CLI logs into docs/evidence with identifiers masked
+  list_tools.py      prints every tool the agent registers
+tests/
+  test_collectors.py      the three collectors, stubbed, including AccessDenied
+  test_tool_allowlist.py  fails if the agent registers anything but the three tools
 ```
 
 ## Next
