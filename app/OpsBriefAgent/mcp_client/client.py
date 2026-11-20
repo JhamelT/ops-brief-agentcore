@@ -1,6 +1,5 @@
 import os
 import logging
-GATEWAY_MCP_URL = os.environ["GATEWAY_MCP_URL"]  # set in Unit 3, no default on purpose
 from mcp.client.streamable_http import streamablehttp_client
 from strands.tools.mcp.mcp_client import MCPClient
 
