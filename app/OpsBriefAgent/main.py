@@ -5,13 +5,11 @@ import asyncio
 from strands.agent.conversation_manager.null_conversation_manager import NullConversationManager
 from bedrock_agentcore.runtime import BedrockAgentCoreApp
 from model.load import load_model
-from mcp_client.client import get_streamable_http_mcp_client
 
 app = BedrockAgentCoreApp()
 log = app.logger
 
-# Define a Streamable HTTP MCP Client
-mcp_clients = [get_streamable_http_mcp_client()]
+
 
 DEFAULT_SYSTEM_PROMPT = """
 You are an AWS operations assistant for a single account.
@@ -59,10 +57,7 @@ tools.extend([alarm_state, ec2_inventory, yesterday_spend])
 
 
 
-# Add MCP client to tools if available
-for mcp_client in mcp_clients:
-    if mcp_client:
-        tools.append(mcp_client)
+
 
 
 def _make_conversation_manager():
